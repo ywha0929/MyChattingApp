@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="2"
+            android:textSize="30dp"
             android:text="TextView" />
 
         <EditText
@@ -28,14 +29,16 @@
             android:layout_weight="1"
 
             android:inputType="text"
-            android:text="Name" />
+            android:hint="Name"
+            />
     </LinearLayout>
 
     <TextView
         android:id="@+id/textHostMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text=""
+        android:textSize="20dp"
         android:layout_weight="300"
         />
 
@@ -44,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:text="Name"
+        android:text=""
         android:layout_weight="1"
         />
 </LinearLayout>
