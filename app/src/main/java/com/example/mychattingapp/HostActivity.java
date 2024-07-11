@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -82,9 +84,15 @@ public class HostActivity extends AppCompatActivity {
 
         @Override
         public void run() {
+            Looper.prepare();
             while (socket == null) {
                 try {
+
+                    Log.d("TAG", "SendThread Starrt: ");
+                    Toast.makeText(getApplicationContext(),"Waiting for Guest",Toast.LENGTH_SHORT).show();
                     socket = serverSocket.accept();
+                    Log.d("TAG", "SendThread Connected: ");
+                    Toast.makeText(getApplicationContext(),"Guest Connected",Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -99,7 +107,6 @@ public class HostActivity extends AppCompatActivity {
                     DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
                     try {
                         dataOutputStream.writeUTF(message.poll());
-                        message.remove();
                         socket.getOutputStream().write(byteArrayOutputStream.toByteArray());
                     } catch (IOException e) {
                         throw new RuntimeException(e);

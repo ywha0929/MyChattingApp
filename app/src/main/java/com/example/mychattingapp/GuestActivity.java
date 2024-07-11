@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -35,6 +37,7 @@ public class GuestActivity extends AppCompatActivity {
         editInput = findViewById(R.id.editGuestInput);
 
         Intent intent = getIntent();
+        textJoinIP.setText(intent.getStringExtra("IP"));
         try {
             sendThread = new SendThread(intent.getStringExtra("IP"));
             sendThread.start();
@@ -69,8 +72,10 @@ public class GuestActivity extends AppCompatActivity {
 
         @Override
         public void run() {
+            Looper.prepare();
             try {
                 socket = new Socket(ip,12345);
+                Toast.makeText(getApplicationContext(),"Host connected",Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -85,7 +90,7 @@ public class GuestActivity extends AppCompatActivity {
                     DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
                     try {
                         dataOutputStream.writeUTF(message.poll());
-                        message.remove();
+
                         socket.getOutputStream().write(  byteArrayOutputStream.toByteArray() );
                     } catch (IOException e) {
                         throw new RuntimeException(e);
