@@ -25,8 +25,6 @@ import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import kotlinx.coroutines.channels.Send;
-
 public class HostActivity extends AppCompatActivity {
     EditText editNickName;
     EditText editMessage;
@@ -107,6 +105,7 @@ public class HostActivity extends AppCompatActivity {
                     DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
                     try {
                         dataOutputStream.writeUTF(message.poll());
+
                         socket.getOutputStream().write(byteArrayOutputStream.toByteArray());
                     } catch (IOException e) {
                         throw new RuntimeException(e);
